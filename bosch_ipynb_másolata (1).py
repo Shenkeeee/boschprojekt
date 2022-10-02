@@ -218,7 +218,7 @@ df349.columns = df349.columns.str.replace(
 
 
 
-variable = 
+
 variable=str(variable)
 
 obj0 = df349[["camData._m_objects._m_value._"+variable+"_._m_objType"]]
@@ -268,7 +268,7 @@ for i in range(50):
     plt.scatter(x_values,y_values, color='blue')
     
     if(x_values[i]>=0.3 and x_values[i]<=2 and y_values[i]>0.8 and y_values[i] < 2.3):
-        print(x_values[i], y_values[i])
+        print(x_values[i], y_values[i]) ######################################################xx
     
     
     
@@ -633,6 +633,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('TkAgg')
 from matplotlib.patches import Rectangle
+import math
 
 df349 = pd.read_csv(
     "Group_349.csv",
@@ -720,16 +721,48 @@ while number != 15:
                 else:
                     plt.scatter(x_values, y_values, color='green')
                 #
-                # if (x_values[i] >= 0.3 and x_values[i] <= 2 and y_values[i] > 0.8 and y_values[i] < 2.3):
-                #     print(x_values[i], y_values[i])
+                if (x_values[i] >= 0.3 and x_values[i] <= 2 and y_values[i] > 0.8 and y_values[i] < 2.3):
+                      print(x_values[i], y_values[i])
+
+                      #Estimated Time of Arrival
+
+                      ax = df416["axvRef_sw"] / 2048
+                      ay = df416["ayvRef_sw"] / 2048
+
+                      obj0dx_a = x_values[i]
+                      obj0dy_a = y_values[i]
+
+                      s = math.sqrt(((obj0dx - obj0dx_a)**2)+(obj0dy - obj0dy_a))   # ide obj0dx_a és obj0dy_a helyére kellene a megérkezési koordináta
+
+                      v0 = math.sqrt(((obj0dx)**2)+((obj0dy)**2))
+
+                      a = math.sqrt(((ax)**2)+((ay)**2))
+
+                      ETA = (-v0 + math.sqrt(((v0)**2)+2*s*a))/a
+
+                      print("ETA: " + str(ETA))
 
                 # ax.add_patch(Rectangle((-0.5, 0.8), 3, 1.4, color='blue'))
 
                 plt.pause(0.001)
                 i = i + 1
+                
 
 
 
             plt.show()
 
             nnumber = number + 1
+
+#Estimated Time of Arrival (ETA)
+
+ax = df416["axvRef_sw"]
+ay = df416["ayvRef_sw"]
+
+s = math.sqrt(((obj0dx - obj0dx_a)**2)+(obj0dy - obj0dy_a))   # ide obj0dx_a és obj0dy_a helyére kellene a megérkezési koordináta
+
+v0 = math.sqrt(((obj0dx)**2)+((obj0dy)**2))
+
+a = math.sqrt(((ax)**2)+((ay)**2))
+
+ETA = (-v0 + sqrt(((v0)**2)+2*s*a)/a
